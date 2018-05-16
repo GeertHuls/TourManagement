@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TourManagement.API.Dtos;
+using TourManagement.API.Helpers;
 using TourManagement.API.Services;
 
 namespace TourManagement.API.Controllers
 {
-    [Route("api/tours")]
+	[Route("api/tours")]
     public class ToursController : Controller
     {
         private readonly ITourManagementRepository _tourManagementRepository;
@@ -27,20 +28,47 @@ namespace TourManagement.API.Controllers
             return Ok(tours);
         }
 
+		//[HttpGet("{tourId}", Name = "GetTour")]
+		//public async Task<IActionResult> GetTour(Guid tourId)
+		//{
+		//    var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
 
-        [HttpGet("{tourId}", Name = "GetTour")]
-        public async Task<IActionResult> GetTour(Guid tourId)
-        {
-            var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
+		//    if (tourFromRepo == null)
+		//    {
+		//        return BadRequest();
+		//    }
 
-            if (tourFromRepo == null)
-            {
-                return BadRequest();
-            }
+		//    var tour = Mapper.Map<Tour>(tourFromRepo);
 
-            var tour = Mapper.Map<Tour>(tourFromRepo);
+		//    return Ok(tour);
+		//}
 
-            return Ok(tour);
-        }        
-    }
+	    [HttpGet("{tourId}", Name = "GetTour")]
+	    [RequestHeaderMatchesMediaType("Accept",
+		    new[] { "application/vnd.marvin.tour+json" })]
+	    public async Task<IActionResult> GetTour(Guid tourId)
+	    {
+		    return await GetSpecificTour<Tour>(tourId);
+	    }
+
+	    [HttpGet("{tourId}")]
+	    [RequestHeaderMatchesMediaType("Accept",
+		    new[] { "application/vnd.marvin.tourwithestimatedprofits+json" })]
+	    public async Task<IActionResult> GetTourWithEstimatedProfits(Guid tourId)
+	    {
+		    return await GetSpecificTour<TourWithEstimatedProfits>(tourId);
+	    }
+
+	    private async Task<IActionResult> GetSpecificTour<T>(Guid tourId) where T : class
+	    {
+		    var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
+
+		    if (tourFromRepo == null)
+		    {
+			    return BadRequest();
+		    }
+
+		    return Ok(Mapper.Map<T>(tourFromRepo));
+	    }
+	}
 }
