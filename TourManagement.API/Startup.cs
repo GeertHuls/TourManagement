@@ -30,7 +30,6 @@ namespace TourManagement.API
 
 	            var jsonOutputFormatter = setupAction.OutputFormatters
 		            .OfType<JsonOutputFormatter>().FirstOrDefault();
-
 	            if (jsonOutputFormatter != null)
 	            {
 		            jsonOutputFormatter.SupportedMediaTypes
@@ -38,7 +37,17 @@ namespace TourManagement.API
 		            jsonOutputFormatter.SupportedMediaTypes
 			            .Add("application/vnd.marvin.tourwithestimatedprofits+json");
 	            }
-			})
+
+                var jsonInputFormatter = setupAction.InputFormatters
+                    .OfType<JsonInputFormatter>().FirstOrDefault();
+                if (jsonInputFormatter != null)
+                {
+                    jsonInputFormatter.SupportedMediaTypes
+                        .Add("application/vnd.marvin.tourforcreation+json");
+                    jsonInputFormatter.SupportedMediaTypes
+                        .Add("application/vnd.marvin.tourwithmanagerforcreation+json");
+                }
+            })
             .AddJsonOptions(options =>
             {
                 options.SerializerSettings.DateParseHandling = DateParseHandling.DateTimeOffset;
@@ -100,7 +109,10 @@ namespace TourManagement.API
 
 				config.CreateMap<Entities.Band, Dtos.Band>();
                 config.CreateMap<Entities.Manager, Dtos.Manager>();
-                config.CreateMap<Entities.Show, Dtos.Show>(); 
+                config.CreateMap<Entities.Show, Dtos.Show>();
+
+                config.CreateMap<Dtos.TourForCreation, Entities.Tour>();
+                config.CreateMap<Dtos.TourWithManagerForCreation, Entities.Tour>();
             });
 
             // Enable CORS
