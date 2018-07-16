@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Primitives;
 using TourManagement.API.Dtos;
 using TourManagement.API.Helpers;
 using TourManagement.API.Services;
@@ -28,24 +30,38 @@ namespace TourManagement.API.Controllers
             return Ok(tours);
         }
 
-		//[HttpGet("{tourId}", Name = "GetTour")]
-		//public async Task<IActionResult> GetTour(Guid tourId)
-		//{
-		//    var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
+        //[HttpGet("{tourId}", Name = "GetTour")]
+        //public async Task<IActionResult> GetTour(Guid tourId)
+        //{
+        //    var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
 
-		//    if (tourFromRepo == null)
-		//    {
-		//        return BadRequest();
-		//    }
+        //    if (tourFromRepo == null)
+        //    {
+        //        return BadRequest();
+        //    }
 
-		//    var tour = Mapper.Map<Tour>(tourFromRepo);
+        //    var tour = Mapper.Map<Tour>(tourFromRepo);
 
-		//    return Ok(tour);
-		//}
+        //    return Ok(tour);
+        //}
 
-	    [HttpGet("{tourId}", Name = "GetTour")]
+        [HttpGet("{tourId}")]
+        public async Task<IActionResult> GetDefaultTour(Guid tourId)
+        {
+            if (Request.Headers.TryGetValue("Accept",
+                out StringValues values))
+            {
+                Debug.WriteLine($"Accept header(s): {string.Join(",", values)}");
+            }
+
+            return await GetSpecificTour<Tour>(tourId);
+        }
+
+        [HttpGet("{tourId}", Name = "GetTour")]
 	    [RequestHeaderMatchesMediaType("Accept",
-		    new[] { "application/vnd.marvin.tour+json" })]
+		    new[] {
+                "application/vnd.marvin.tour+json"
+		    })]
 	    public async Task<IActionResult> GetTour(Guid tourId)
 	    {
 		    return await GetSpecificTour<Tour>(tourId);
