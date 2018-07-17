@@ -26,7 +26,7 @@ namespace TourManagement.API.Controllers
         [RequestHeaderMatchesMediaType("Accept", new[] { "application/json",
             "application/vnd.marvin.showcollection+json" })]
         public async Task<IActionResult> GetShowCollection(Guid tourId,
-          [ModelBinder(BinderType = typeof(ArrayModelBinder<>))] IEnumerable<Guid> showIds)
+          [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> showIds)
         {
             if (showIds == null || !showIds.Any())
             {
@@ -47,7 +47,7 @@ namespace TourManagement.API.Controllers
             }
 
             var showCollectionToReturn = Mapper.Map<IEnumerable<Show>>(showEntities);
-            return Ok(showCollectionToReturn);            
+            return Ok(showCollectionToReturn);
         }
 
 
