@@ -90,5 +90,7 @@ export class AppModule {
       .forMember('bandid', function (opts) { opts.mapFrom('band'); })
       .forMember('managerid', function (opts) { opts.mapFrom('manager'); });
 
+    automapper.createMap('ShowCollectionFormModelShowsArray',
+      'ShowCollectionForCreation');
   }
 }
