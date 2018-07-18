@@ -138,7 +138,6 @@ namespace TourManagement.API.Controllers
         public async Task<IActionResult> AddTourWithManagerAndShows(
             [FromBody] TourWithManagerAndShowsForCreation tour)
         {
-
             return await AddSpecificTour(tour);
         }
 
@@ -151,7 +150,7 @@ namespace TourManagement.API.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return new UnprocessableEntityObjectResult(ModelState);
             }
 
             var tourEntity = Mapper.Map<Entities.Tour>(tour);
@@ -197,12 +196,12 @@ namespace TourManagement.API.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return new UnprocessableEntityObjectResult(ModelState);
             }
 
             if (!TryValidateModel(tourToPatch))
             {
-                return BadRequest();
+                return new UnprocessableEntityObjectResult(ModelState);
             }
 
             Mapper.Map(tourToPatch, tourFromRepo);
