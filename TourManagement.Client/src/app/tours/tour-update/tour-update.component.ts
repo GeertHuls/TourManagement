@@ -61,10 +61,9 @@ export class TourUpdateComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  private updateTourForm(): void
-  {
-    let datePipe = new DatePipe(navigator.language);
-    let dateFormat = 'yyyy-MM-dd';
+  private updateTourForm(): void {
+    const datePipe = new DatePipe('en'); // navigator.language
+    const dateFormat = 'yyyy-MM-dd';
 
     this.tourForm.patchValue({
       title: this.tour.title,
