@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import {Manager} from '../../shared/manager.model';
 import {ShowSingleComponent} from '../shows/show-single/show-single.component';
 import {CustomValidators} from '../../shared/custom-validators';
+import {ValidationErrorHandler} from '../../shared/validation-error-handler';
 
 @Component({
   selector: 'app-tour-add',
@@ -66,7 +67,8 @@ export class TourAddComponent implements OnInit {
             .subscribe(
               () => {
                 this.router.navigateByUrl('/tours');
-              });
+              },(validationResult) =>
+              { ValidationErrorHandler.handleValidationErrors(this.tourForm, validationResult); });
         } else {
           let tour = automapper.map(
             'TourFormModel',
@@ -76,10 +78,11 @@ export class TourAddComponent implements OnInit {
             .subscribe(
               () => {
                 this.router.navigateByUrl('/tours');
-              });
+              },
+              (validationResult) =>
+              { ValidationErrorHandler.handleValidationErrors(this.tourForm, validationResult); });
         }
-      }
-      else {
+      } else {
         if (this.tourForm.value.shows.length) {
           let tour = automapper.map(
             'TourFormModel',
@@ -99,7 +102,9 @@ export class TourAddComponent implements OnInit {
             .subscribe(
               () => {
                 this.router.navigateByUrl('/tours');
-              });
+              },
+              (validationResult) => {
+                ValidationErrorHandler.handleValidationErrors(this.tourForm, validationResult); });
         }
       }
     }
