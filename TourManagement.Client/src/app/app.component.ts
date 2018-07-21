@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {  } from "automapper-ts";
+import {OpenIdConnectService} from "./shared/open-id-connect.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'Pluralsight Demo';  
+export class AppComponent implements OnInit {
+  title = 'Pluralsight Demo';
+
+  constructor(private openIdConnectService: OpenIdConnectService) {
+  }
+
+  ngOnInit() {
+    const path = window.location.pathname;
+    if (path !== '/signin-oidc') {
+      if (!this.openIdConnectService.userAvailable) {
+        this.openIdConnectService.triggerSignIn();
+      }
+    }
+  }
 }
