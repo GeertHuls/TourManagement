@@ -25,6 +25,7 @@ import {EnsureAcceptHeaderInterceptor} from './shared/ensure-accept-header-inter
 import {ShowSingleComponent} from './tours/shows/show-single/show-single.component';
 import {OpenIdConnectService} from './shared/open-id-connect.service';
 import {SigninOidcComponent} from './signin-oidc/signin-oidc.component';
+import {RequireAuthenticatedUserRouteGuardService} from "./shared/require-authenticated-user-route-guard.service";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {SigninOidcComponent} from './signin-oidc/signin-oidc.component';
       multi: true,
     },
     GlobalErrorHandler, ErrorLoggerService, TourService,
-    MasterDataService, ShowService, DatePipe, OpenIdConnectService],
+    MasterDataService, ShowService, DatePipe, OpenIdConnectService,
+    RequireAuthenticatedUserRouteGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
