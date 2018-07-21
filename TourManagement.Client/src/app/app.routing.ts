@@ -1,11 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { AboutComponent } from './about'; 
+import { AboutComponent } from './about';
 import { AppComponent } from './app.component';
 import { ToursComponent, TourDetailComponent, TourUpdateComponent, TourAddComponent } from './tours';
 
 import { NgModule } from '@angular/core';
 import { ShowAddComponent } from './tours/shows/index';
+import {SigninOidcComponent} from './signin-oidc/signin-oidc.component';
 
 const routes: Routes = [
     // redirect root to the dasbhoard route
@@ -13,9 +14,10 @@ const routes: Routes = [
     { path: 'tours', component: ToursComponent },
     { path: 'about', component: AboutComponent },
     { path: 'tours/:tourId', component: TourDetailComponent },
-    { path: 'tour-update/:tourId', component: TourUpdateComponent },  
-    { path: 'tour-add', component: TourAddComponent },  
-    { path: 'tours/:tourId/show-add', component: ShowAddComponent }
+    { path: 'tour-update/:tourId', component: TourUpdateComponent },
+    { path: 'tour-add', component: TourAddComponent },
+    { path: 'tours/:tourId/show-add', component: ShowAddComponent },
+    { path: 'signin-oidc', component: SigninOidcComponent }
   //  { path: '**', redirectTo: 'tours' },
 ];
 
