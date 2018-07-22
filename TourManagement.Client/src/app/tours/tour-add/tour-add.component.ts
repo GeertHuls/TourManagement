@@ -9,7 +9,7 @@ import {Manager} from '../../shared/manager.model';
 import {ShowSingleComponent} from '../shows/show-single/show-single.component';
 import {CustomValidators} from '../../shared/custom-validators';
 import {ValidationErrorHandler} from '../../shared/validation-error-handler';
-import {OpenIdConnectService} from "../../shared/open-id-connect.service";
+import {OpenIdConnectService} from '../../shared/open-id-connect.service';
 
 @Component({
   selector: 'app-tour-add',

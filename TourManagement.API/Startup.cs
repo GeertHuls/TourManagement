@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
+using IdentityServer4.AccessTokenValidation;
 using TourManagement.API.Services;
 
 namespace TourManagement.API
@@ -94,6 +95,13 @@ namespace TourManagement.API
 
             // register the user info service
             services.AddScoped<IUserInfoService, UserInfoService>();
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "https://localhost:44398";
+                    options.ApiName = "tourmanagementapi";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -145,6 +153,7 @@ namespace TourManagement.API
 
             // Enable CORS
             app.UseCors("AllowAllOriginsHeadersAndMethods");
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
