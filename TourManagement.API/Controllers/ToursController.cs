@@ -78,7 +78,8 @@ namespace TourManagement.API.Controllers
         }
 
         [HttpGet("{tourId}", Name = "GetTour")]
-	    [RequestHeaderMatchesMediaType("Accept",
+        [Authorize(Policy = "UserMustBeTourManager")]
+        [RequestHeaderMatchesMediaType("Accept",
 		    new[] {
                 "application/vnd.marvin.tour+json"
 		    })]
@@ -88,7 +89,8 @@ namespace TourManagement.API.Controllers
 	    }
 
 	    [HttpGet("{tourId}")]
-	    [RequestHeaderMatchesMediaType("Accept",
+	    [Authorize(Policy = "UserMustBeTourManager")]
+        [RequestHeaderMatchesMediaType("Accept",
 		    new[] { "application/vnd.marvin.tourwithestimatedprofits+json" })]
 	    public async Task<IActionResult> GetTourWithEstimatedProfits(Guid tourId)
 	    {
@@ -96,6 +98,8 @@ namespace TourManagement.API.Controllers
 	    }
 
         [HttpGet("{tourId}")]
+        [Authorize(Policy = "UserMustBeTourManager")]
+        [Authorize(Policy = "UserMustBeAdministrator")]
         [RequestHeaderMatchesMediaType("Accept",
             new[] { "application/vnd.marvin.tourwithshows+json" })]
         public async Task<IActionResult> GetTourWithShows(Guid tourId)
@@ -126,6 +130,7 @@ namespace TourManagement.API.Controllers
 	    }
 
         [HttpPost]
+        [Authorize(Policy = "UserMustBeAdministrator")]
         [RequestHeaderMatchesMediaType("Content-Type",
             new[] { "application/json",
                 "application/vnd.marvin.tourforcreation+json" })]
@@ -144,6 +149,7 @@ namespace TourManagement.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "UserMustBeAdministrator")]
         [RequestHeaderMatchesMediaType("Content-Type",
             new[] { "application/vnd.marvin.tourwithshowsforcreation+json" })]
         public async Task<IActionResult> AddTourWithShows(
